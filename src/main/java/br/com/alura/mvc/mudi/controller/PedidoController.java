@@ -25,7 +25,7 @@ public class PedidoController {
 		return "pedido/formulario";
 	}
 
-	@PostMapping("/pedido/novo")
+	@PostMapping("novo")
 	public String novo(@Valid RequisicaoNovoPedido requisicao, BindingResult result) {
 		if (result.hasErrors()) {
 			return "pedido/formulario";
@@ -34,6 +34,6 @@ public class PedidoController {
 		Pedido pedido = requisicao.toPedido();
 		pedidoRepository.save(pedido);
 
-		return "pedido/formulario";
+		return "redirect:/home";
 	}
 }
