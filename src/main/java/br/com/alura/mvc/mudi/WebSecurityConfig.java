@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @Configuration
@@ -19,7 +20,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	private DataSource DataSource;
+	private DataSource dataSource;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -30,20 +31,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.and()
 		.formLogin(form -> form
 				.loginPage("/login")
+				.defaultSuccessUrl("/home", true)
 				.permitAll()
 		)
 		.logout(logout -> logout.logoutUrl("/logout"));
 	}
 	
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.jdbcAuthentication();
-	}
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		UserDetails user = User.withDefaultPasswordEncoder().username("joao").password("joao").roles("adm").build();
-
-		return new InMemoryUserDetailsManager(user);
+		auth.jdbcAuthentication()
+			.dataSource(dataSource)
+			.passwordEncoder(encoder);
 	}
 }
