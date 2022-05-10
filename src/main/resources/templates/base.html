@@ -31,7 +31,8 @@
 			<a onclick="document.querySelector('#form-login').submit()" class="text-light" sec:authorize="isAuthenticated()" href="#">logout</a>
 			<form id="form-login" th:action="@{/logout}" method="post"></form>
 		</span>
-	</div class="row" sec:authorize="isAuthenticated()">
+	</div>
+	<div class="row" sec:authorize="isAuthenticated()">
 		<div class="col">
 			<nav class="nav">
 			  <a class="nav-link" th:href="@{/home}">Active</a>
@@ -39,6 +40,7 @@
 			</nav>
 		</div>
 	</div>
+</div>
 <div th:fragment="titulo(valor)" class="jumbotron mt-2">
 	<h1 class="display-4" th:text="${valor}"></h1>
 </div>
