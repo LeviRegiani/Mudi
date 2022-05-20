@@ -35,23 +35,17 @@
 				var app = new Vue({
 					el: '#ofertas',
 					data: {
-						pedidos : [
-							{
-								"id": 3,
-								"nomeProduto": "Kindle 10a",
-								"valorNegociado": null,
-								"dataDaEntrega": null,
-								"urlProduto": "https://www.amazon.com.br/gp/product/B07FQK1TS9?ref_=gw_ATF_kindle10agen&pf_rd_r=0D8F74SWX609FC9MBNB4&pf_rd_p=8f35c8d7-5bcf-42b1-814e-9326b9365fb2&pd_rd_r=d0fbdabd-f923-4c13-afda-e54705852c31&pd_rd_w=IWC1S&pd_rd_wg=QQ5Ly",
-								"urlImagem": "https://m.media-amazon.com/images/I/71af5gP2wgL._AC_SX679_.jpg",
-								"descricao": "descrição para Kindle 10a",
-								"status": "AGUARDANDO",
-								"user": null
-								}
-							]
+						pedidos : []
+					},
+					mounted() {
+						axios
+						.get('http://localhost:8080/api/pedidos/aguardando')
+						.then(response => (this.pedidos = response.data))
 					}
 				});
 			}
 		</script>
 		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	</body>
 </html>
